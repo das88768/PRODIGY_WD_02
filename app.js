@@ -14,6 +14,7 @@ let elapsedTime = 0;
 let timeInterval;
 let lapStartTime = 0;
 let isRunning = false;
+let lapCount = 0;
 
 // convert time to a format of hour, minutes, seconds and miliseconds.
 function timeToString(time){
@@ -33,7 +34,7 @@ function timeToString(time){
     let formatedMM = mm.toString().padStart(2, '0');
     let formatedMS = ms.toString().padStart(2, '0');
 
-    return `${formatedMM}:${formatedSS}:${formatedMS}`;
+    return `${formatedMM} : ${formatedSS} : ${formatedMS}`;
 }
 
 // show play and pause button
@@ -73,16 +74,20 @@ function pause(){
 function reset(){
     isRunning = false;
     clearInterval(timeInterval);
-    print('00:00:00');
+    print('00 : 00 : 00');
+    document.getElementById('laps').innerHTML = '';
+    lapCount = 0;
     elapsedTime = 0;
     showButton('play');
 }
 
 
+// Dsplay all the laps on the screen.
 function showLastLap(lastLapTime){
-    document.getElementById('laps').innerHTML += "<li>" + lastLapTime + "</li>";
+    document.getElementById('laps').innerHTML += "<li>" + "<span class='counter'>" + `# ${lapCount} ` + "</span>" + "<span class='laptime'>" + lastLapTime + "</span>" + "</li>";
 }
 
+// capture and format the lap time.
 function lapTime(){
     if(isRunning){
         const lapTime = Date.now() - lapStartTime; 
@@ -90,6 +95,7 @@ function lapTime(){
 
         console.log(formatedLapTime);
 
+        lapCount += 1;
         showLastLap(formatedLapTime);
 
         lapStartTime = Date.now();
