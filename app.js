@@ -78,12 +78,20 @@ function reset(){
     showButton('play');
 }
 
+
+function showLastLap(lastLapTime){
+    document.getElementById('laps').innerHTML += "<li>" + lastLapTime + "</li>";
+}
+
 function lapTime(){
     if(isRunning){
         const lapTime = Date.now() - lapStartTime; 
         const formatedLapTime = timeToString(lapTime);
 
         console.log(formatedLapTime);
+
+        showLastLap(formatedLapTime);
+
         lapStartTime = Date.now();
     }
 }
